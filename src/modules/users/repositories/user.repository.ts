@@ -1,6 +1,6 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateUserDto } from '@/modules/users/dto/createUserDto';
-import { UserRepositoryInterface } from '../interfaces/userRepository.interface';
+import { UserRepositoryInterface } from '@/modules/users/interfaces/userRepository.interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -22,6 +22,7 @@ export class UserRepository implements UserRepositoryInterface {
   async createUser(data: CreateUserDto) {
     const user = await this.prisma.user.create({
       data: {
+        id: data.id,
         email: data.email,
         lastName: data.lastName,
         firstName: data.firstName,

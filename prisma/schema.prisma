@@ -15,20 +15,26 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
+  id         String    @id @unique @db.Uuid
   email      String    @unique
   firstName  String    @db.VarChar(255)
   lastName   String    @db.VarChar(255)
   imageUrl   String?   @db.VarChar(255)
-  businessId String?
-  Business   Business?
+  business   Business?
+  businessId String?   @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Business {
-  id          String  @id @default(uuid())
+  id          String  @id @unique @db.Uuid
   name        String  @db.VarChar(255)
-  description String?  @db.Text
+  description String? @db.Text
   imageUrl    String? @db.VarChar(255)
-  creatorId   String  @unique
   user        User    @relation(fields: [creatorId], references: [id])
+  creatorId   String  @unique @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
