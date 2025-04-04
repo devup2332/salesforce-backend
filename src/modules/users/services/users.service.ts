@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '@/modules/users/dto/createUserDto';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
 import { HttpResponseDto } from '@/modules/auth/dto/httpResponseDto';
+import { ResponseUserDto } from '../dto/responseUserDto';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,13 @@ export class UsersService {
 
   async findUserById(id: string) {
     const user = await this.repository.findUserById(id);
-    return new HttpResponseDto(HttpStatus.OK, 'User Found', user);
+
+    if (!user) {
+      return new HttpResponseDto(HttpStatus.OK, 'User not found', null);
+    }
+
+    return new HttpResponseDto(HttpStatus.OK, 'User Found', {
+      user: new ResponseUserDto(user),
+    });
   }
 }

@@ -99,7 +99,7 @@ export class AuthService implements OnModuleInit {
       if (!user) {
         return new HttpException(
           error?.code || "Couldn't login user",
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.OK,
         );
       }
 
