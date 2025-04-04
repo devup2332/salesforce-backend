@@ -8,9 +8,13 @@ import { UsersModule } from '@/modules/users/users.module';
 import { BusinessModule } from '@/modules/business/business.module';
 import { CommonModule } from './modules/common/common.module';
 
+const developMode = process.env.NODE_ENV === 'development';
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: developMode ? '.env.local' : '.env',
+    }),
     PrismaModule,
     AuthModule,
     UsersModule,
